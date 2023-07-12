@@ -35,3 +35,6 @@ hist = model.fit(X_train, Y_train, batch_size=32, epochs=3, validation_split=0.1
 #Evaluate on training and test data
 print(model.evaluate(X_train, Y_train)[1])
 print(model.evaluate(X_test, Y_test)[1])
+
+"""test
+"""

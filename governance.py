@@ -6,7 +6,9 @@ from sklearn.model_selection import train_test_split
 from keras.models import Sequential
 from keras.layers import Dense
 
-df = pd.read_csv('/Users/ethanmoscot/Desktop/GAO AI/gao-ai/gao_governance.csv') #Personal file path
+#df = pd.read_csv('/Users/ethanmoscot/Desktop/GAO AI/gao-ai/gao_governance.csv') #Personal file path
+df = pd.read_csv('gao_governance.csv') #Personal file path
+
 #df.head()
 #df = df.values
 

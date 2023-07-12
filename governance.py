@@ -79,7 +79,7 @@ example_data = [99,	99,	99,	84,	97,
                 86,	89,	83,	88,	86,
                 87,	92,	88,	90,	98,	
                 99,	87]
-# Don't forget to transform the data from a column to a row.
+# Don't forget to transpose the data from a column to a row.
 df2 = pd.DataFrame(example_data).T
 #print(df2)
 

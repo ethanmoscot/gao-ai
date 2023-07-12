@@ -11,30 +11,40 @@ df = pd.read_csv('/Users/ethanmoscot/Desktop/GAO AI/gao-ai/gao_governance.csv') 
 #df = df.values
 
 X = df.iloc[:,1:28] #input features (GAO governance criteria)
-#df.iloc[:,1:28]
 Y = df['Compliance Status'].apply(lambda x: 1 if x=='Compliant' else 0)
 
 X_train, X_val_and_test, Y_train, Y_val_and_test = train_test_split(X, Y, test_size = 0.3) #val_and_test is 30% of dataset
+#random_state = 42
 X_val, X_test, Y_val, Y_test = train_test_split(X_val_and_test, Y_val_and_test, test_size = 0.5) #equal split for validation and test sets
-
 
 #print(X_train.shape, X_val.shape, X_test.shape, Y_train.shape, Y_val.shape, Y_test.shape) 
 #(700, 27) (150, 27) (150, 27) (700,) (150,) (150,)
 #training: 700 datapoints, validation and test: 150 points
 #X has 150 input features, Y only has 1 (i.e., the results)
 
-model = Sequential([ #two hidden layers followed by output layer
-    Dense(units=32, activation='relu', input_shape=(27,)),
-    Dense(units=64, activation='relu'),
+model = Sequential([ #hidden layer followed by output layer
+    Dense(units=6, activation='relu', input_shape=(27,)),
     Dense(units=1, activation='sigmoid')
 ])
 
-model.compile(optimizer='sgd', loss='binary_crossentropy', metrics='accuracy')
 #Fit model
-hist = model.fit(X_train, Y_train, batch_size=32, epochs=3, validation_split=0.1, validation_data=(X_val, Y_val))
+model.compile(optimizer='sgd', loss='binary_crossentropy', metrics='accuracy')
+#num_epochs = 3 * 27 (input nodes)
+hist = model.fit(X_train, Y_train, batch_size=32, epochs=81, validation_split=0.1, validation_data=(X_val, Y_val))
 #Evaluate on training and test data
 print(model.evaluate(X_train, Y_train)[1])
 print(model.evaluate(X_test, Y_test)[1])
 
-"""test
+"""
+y_pred = model.predict(X_test)
+T = 0.5
+y_pred_bool = y_pred >= T
+print(Y_pred_bool)
+
+#Test case for compliant example
+headers = list(df.columns.values)
+headers.remove('SystemName')
+headers.remove('Result')
+headers.remove('Compliance Status')
+print(f'headers: {headers}')
 """

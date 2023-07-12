@@ -1,0 +1,6 @@
+# Use: pip install -r requirements.txt
+pandas
+matplotlib
+scikit-learn
+keras
+tensorflow

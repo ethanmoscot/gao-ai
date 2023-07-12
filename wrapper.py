@@ -8,7 +8,7 @@ def get_overall_compliance(results):
     # Add new neural network here? Or, just calculate average?
     # For now, calculate average. If avg>69.9, return 'Compliant'
     avg = sum(results) / len(results)
-    if avg >= 69.9:
+    if avg >= 80:
         return 'Compliant'
     else:
         return 'Not Compliant'

@@ -48,9 +48,10 @@ class MonitoringModel:
         headers.remove('Compliance Status')
         #print(f'headers: {headers}')
 
+        #16 sample inputs
         example_data = [99,	99,	99,	84,	97,
                         91,	99,	86,	97,	87,	
-                        82,	97,	84,	81,	90]
+                        82,	97,	84,	81,	90, 83]
         # Don't forget to transpose the data from a column to a row.
         df2 = pd.DataFrame(data).T
         #print(df2)

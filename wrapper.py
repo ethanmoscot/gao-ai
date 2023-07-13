@@ -1,8 +1,7 @@
 from governance_class import GovernanceModel
-#from data_class import DataModel
-#from performance_class import PerformanceModel
-#from monitoring_class import MonitoringModel
-        
+from data_class import DataModel
+from performance_class import PerformanceModel
+from monitoring_class import MonitoringModel
 
 def get_overall_compliance(results):
     # Add new neural network here? Or, just calculate average?
@@ -17,9 +16,9 @@ def get_overall_compliance(results):
 def main():    
     # Instantiate all model classes
     governance_model = GovernanceModel()
-    #data_model = DataModel()
-    #perforamnce_model = PerformanceModel()
-    #monitoring_model = MonitoringModel()
+    data_model = DataModel()
+    perforamnce_model = PerformanceModel()
+    monitoring_model = MonitoringModel()
     
     # Run prediction on each model
     

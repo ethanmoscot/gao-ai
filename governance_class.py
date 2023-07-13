@@ -48,6 +48,7 @@ class GovernanceModel:
         headers.remove('Compliance Status')
         #print(f'headers: {headers}')
 
+        #27 sample inputs
         example_data = [99,	99,	99,	84,	97,
                         91,	99,	86,	97,	87,	
                         82,	97,	84,	81,	90,

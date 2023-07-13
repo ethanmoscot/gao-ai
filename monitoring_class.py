@@ -3,13 +3,13 @@ from sklearn.model_selection import train_test_split
 from keras.models import Sequential
 from keras.layers import Dense
 
-class GovernanceModel:
+class MonitoringModel:
 
     def __init__(self):
         # During initialization, train the model
-        self.df = pd.read_csv('gao_governance.csv')
+        self.df = pd.read_csv('gao_monitoring.csv')
 
-        X = self.df.iloc[:,1:28] #input features (GAO governance criteria)
+        X = self.df.iloc[:,1:17] #input features (GAO monitoring criteria)
         Y = self.df['Compliance Status'].apply(lambda x: 1 if x=='Compliant' else 0)
 
         """ Use random_state=42 if needed. """
@@ -19,7 +19,7 @@ class GovernanceModel:
         # Some recommend using a single hidden layer where the number of nodes (units) is 
         # equal to sqrt(num_input_nodes * num_output_nodes).
         self.model = Sequential([ #two hidden layers followed by output layer
-            Dense(units=32, activation='relu', input_shape=(27,)),
+            Dense(units=32, activation='relu', input_shape=(16,)),
             Dense(units=64, activation='relu'),
             Dense(units=1, activation='sigmoid')
         ])
@@ -27,7 +27,7 @@ class GovernanceModel:
         self.model.compile(optimizer='sgd', loss='binary_crossentropy', metrics='accuracy')
 
         """
-        # A rule of thumb for num_epochs is 3 times the number of input nodes (3*27=81). If the model 
+        # A rule of thumb for num_epochs is 3 times the number of input nodes (3*16=48). If the model 
         # stopped improving accuracy before then, reduce num epochs. If the accuracy is still improving 
         # after this, increase epochs.
         """
@@ -35,7 +35,7 @@ class GovernanceModel:
         #Evaluate on training and test data
         #print(self.model.evaluate(X_train, Y_train)[1])
         #print(self.model.evaluate(X_test, Y_test)[1])
-        print('GovernanceModel ready.')
+        print('MonitoringModel ready.')
 
 
     def predict(self, data):
@@ -50,10 +50,7 @@ class GovernanceModel:
 
         example_data = [99,	99,	99,	84,	97,
                         91,	99,	86,	97,	87,	
-                        82,	97,	84,	81,	90,
-                        86,	89,	83,	88,	86,
-                        87,	92,	88,	90,	98,	
-                        99,	87]
+                        82,	97,	84,	81,	90]
         # Don't forget to transpose the data from a column to a row.
         df2 = pd.DataFrame(data).T
         #print(df2)

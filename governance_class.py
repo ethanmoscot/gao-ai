@@ -67,3 +67,18 @@ class GovernanceModel:
         result = 'Compliant' if y_pred >= T else 'Not Compliant'
         print(f'----------------------\nExample Prediction:\n{result}')
         return int(y_pred * 100)
+    
+    
+# For testing just this class
+if __name__ == "__main__":
+    governance = GovernanceModel()
+    
+    compliant_data = [86, 83, 82, 80, 90, 87, 83, 90, 87,	
+            80, 98, 86, 87, 80, 87, 96, 86, 99, 
+            84, 98, 84, 97, 92, 86, 87, 97, 98]
+    
+    non_compliant_data = [15, 20, 34, 80, 27, 87, 83, 90, 87,	
+            80, 98, 86, 87, 80, 87, 96, 86, 99, 
+            84, 98, 84, 97, 92, 86, 87, 97, 98]
+    
+    governance.predict(non_compliant_data)

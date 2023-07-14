@@ -1,0 +1,188 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='gao-ai.css')}}" />
+    <title>GAO AI Compliance Checklist</title>
+</head>
+
+<!-- ************************************** JAVASCRIPT ************************************** -->
+
+<script>
+
+    var previous_selected_row=-1;
+
+    <!-- Get data for selected system -->
+    function getData(x) {
+        var table_rows = document.getElementById("results_table").getElementsByTagName("tr");
+        if (previous_selected_row > -1) {
+            if (previous_selected_row % 2 == 0) {
+                table_rows[previous_selected_row].style.backgroundColor = "F6F6F6";
+            } else {
+                table_rows[previous_selected_row].style.backgroundColor = "white";
+            }
+        }
+        
+        previous_selected_row = x.rowIndex
+        table_rows[previous_selected_row].style.backgroundColor = "#CFE2E8"; 
+
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", "http://127.0.0.1:5000/get_data?row_id=" + x.rowIndex, false ); // false for synchronous request
+        xmlHttp.send( x );
+        console.log('Got response');
+
+        json = xmlHttp.responseText;
+        var myObj = JSON.parse(json);
+        console.log(myObj);
+
+        var text = "<div style='font-weight: bold; font-size: 20px; color: #6B8C96; '>Details</div>"
+        
+        // Display the governance values
+        governanceObj = myObj.GovernanceData
+        text += "<div style='font-weight: bold; font-size: 16px; color: #6B8C96; '>Governance</div>"
+        text += "<table width='100%'>"
+        text += "<thead style='background: #F6F6F6; '>"
+        text += "<tr >"
+            for (var x in governanceObj) {
+                text += "<th style='font-size: 14px; color: #6B98A6; '>" + governanceObj[x].Section + "</th>";
+            }
+        text += "</tr>"
+        text += "</thead>"
+        text += "<tr>"
+        for (var x in governanceObj) {
+            text += "<td style='font-size: 14px; '>" + governanceObj[x].Score + "</td>";
+        }
+        text += "</tr>"
+        text += "</table>"
+
+        // Display the data values
+        dataObj = myObj.DataData
+        text += "<div style='font-weight: bold; font-size: 16px; color: #6B8C96; '>Data</div>"
+        text += "<table width='100%'>"
+        text += "<thead style='background: #F6F6F6; '>"
+        text += "<tr >"
+            for (var x in dataObj) {
+                text += "<th style='font-size: 14px; color: #6B98A6; '>" + dataObj[x].Section + "</th>";
+            }
+        text += "</tr>"
+        text += "</thead>"
+        text += "<tr>"
+        for (var x in dataObj) {
+            text += "<td style='font-size: 14px; '>" + dataObj[x].Score + "</td>";
+        }
+        text += "</tr>"
+        text += "</table>"
+
+        // Display the performance values
+        performanceObj = myObj.PerformanceData
+        text += "<div style='font-weight: bold; font-size: 16px; color: #6B8C96; '>Performance</div>"
+        text += "<table width='100%'>"
+        text += "<thead style='background: #F6F6F6; '>"
+        text += "<tr >"
+            for (var x in performanceObj) {
+                text += "<th style='font-size: 14px; color: #6B98A6; '>" + performanceObj[x].Section + "</th>";
+            }
+        text += "</tr>"
+        text += "</thead>"
+        text += "<tr>"
+        for (var x in performanceObj) {
+            text += "<td style='font-size: 14px; '>" + performanceObj[x].Score + "</td>";
+        }
+        text += "</tr>"
+        text += "</table>"
+
+        // Display the performance values
+        monitoringObj = myObj.MonitoringData
+        text += "<div style='font-weight: bold; font-size: 16px; color: #6B8C96; '>Monitoring</div>"
+        text += "<table width='100%'>"
+        text += "<thead style='background: #F6F6F6; '>"
+        text += "<tr >"
+            for (var x in monitoringObj) {
+                text += "<th style='font-size: 14px; color: #6B98A6; '>" + monitoringObj[x].Section + "</th>";
+            }
+        text += "</tr>"
+        text += "</thead>"
+        text += "<tr>"
+        for (var x in monitoringObj) {
+            text += "<td style='font-size: 14px; '>" + monitoringObj[x].Score + "</td>";
+        }
+        text += "</tr>"
+        text += "</table>"
+
+        const element = document.getElementById("details");
+        element.innerHTML = text;
+
+        
+    }
+</script>
+
+<body id='body'>
+
+    <!-- ************************************** BANNER ************************************** -->
+
+    <div id='banner'>
+        <table width="100%" style="border: none; ">
+            <tr>
+                <td width="33%" align="left"><img width="120px" src="{{ url_for('static', filename='img/dhs_logo.png')}}"
+                        alt="DHS S&T"></td>
+                <td width="33%" align="center"><div style="font-weight: bold; font-size: 30px; color: #6B8C96; ">NAME</div></td>
+                <td width="33%" align="right"><img title="TBD" width="25px"
+                        src="{{ url_for('static', filename='img/menu_gray.png')}}" alt="Menu"></td>
+            </tr>
+        </table>
+        <div style="width: 100%; text-align: center; font-size: 14px; ">p r o t o t y p e</div>
+    </div>
+    <hr color="#85AEBB" size="2">
+
+    <!-- *********************************** ALERT PANEL ************************************** -->
+
+    <div id='alertmessage'>
+        <center>
+        {{ alert_msg }}
+        <center>
+    </div>
+
+    <!-- ************************************** UPLOAD ************************************** -->
+   
+    <div style="font-weight: bold; font-size: 20px; color: #6B8C96; ">Upload</div>
+
+    <div id='uploadbar'>
+        <center>
+        <form action = "http://localhost:5000/uploader" method = "POST" enctype = "multipart/form-data">
+         <input type = "file" name = "file" placeholder="CSV file"/>
+         <img width="15px" style="margin-right: 10px; vertical-align: middle; " title="Upload systems compliance CSV file." src="{{ url_for('static', filename='img/help_gray.png')}}" alt="Menu">           
+         <input id='submit_button' type="submit" />
+        </form>
+        </center>
+    </div>
+    
+    <hr color="#85AEBB"> 
+
+    <!-- ************************************** MAIN ************************************** -->
+
+    <div style="font-weight: bold; font-size: 20px; color: #6B8C96; ">Data Validation</div>
+
+    {% block validation_html %}{% endblock %}
+  
+    <hr color="#85AEBB" size="1">
+
+    <div style="font-weight: bold; font-size: 20px; color: #6B8C96; ">Systems</div>
+
+    <div id='results'>
+        {% block systems_html %}{% endblock %}
+    </div>
+
+    <div id='details'>
+        {% block preview_html %}{% endblock %}
+    </div>
+
+
+    <!--
+
+    <footer style=" padding: 10px; width: 100%; text-align: center;">
+        <div style="text-align: center; font-size: 10px; ">DHS Science and Technology</div>
+        <p> © Copyright ( Year ) </p>
+    </footer>
+    -->
+</body>
+
+</html>

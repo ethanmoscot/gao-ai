@@ -1,0 +1,65 @@
+{% extends "gao-ai.html" %}
+
+
+<!-- The following is called from gao-ai.html num_rows, num_cols, status from app.py -->
+{% block validation_html %}
+<div>
+    {% if num_rows == 0  %}
+    <div>No rows found</div>
+    {% else %}
+    <div style='font-size: 14px; '>Filename: {{ filename }}</div>
+    <div style='font-size: 14px; '>Num rows: {{ num_rows }}</div>
+    <div style='font-size: 14px; '>Num cols: {{ num_cols }}</div>
+    <div style="font-size: 14px; color: green; ">Status: {{ status }}</div>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+<!-- The following is called from gao-ai.html results from app.py -->
+{% block systems_html %}
+<div id="results_table">
+    {% if system_results == None  %}
+    <div>No matches</div>
+    {% else %}
+    <table id="results_data">
+        <thead style="background: #F6F6F6; ">
+            <tr >
+                <th style="color: #6B98A6; " width="20%">System Name</th>
+                <th style="color: #6B98A6; " width="15%">Governance</th>
+                <th style="color: #6B98A6; " width="15%">Data</th>
+                <th style="color: #6B98A6; " width="15%">Performance</th>
+                <th style="color: #6B98A6; " width="15%">Monitoring</th>
+                <th style="color: #6B98A6; " width="15%">Overall Compliance</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- The following is called from app.py -->
+            {% for result in system_results %}
+                <tr onclick="getData(this)">
+                    <td>{{ result.SystemName }}</td>
+                    <td>{{ result.Governance }}</td>
+                    <td>{{ result.Data }}</td>
+                    <td>{{ result.Performance }}</td>
+                    <td>{{ result.Monitoring }}</td>
+                    {% if result.Compliance == 'Compliant'  %}
+                    <td style="color: green; ">{{ result.Compliance }}</td>
+                    {% else %}
+                    <td style="color: red; ">{{ result.Compliance }}</td>
+                    {% endif %}
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+<!-- The following is called from nlex.html, test_id is from app.py -->
+{% block preview_html %}
+<div id="results_table">
+    {{ preview_report }}
+</div>
+{% endblock %}

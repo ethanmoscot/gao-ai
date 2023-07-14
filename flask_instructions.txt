@@ -1,0 +1,34 @@
+Follow instructions at:
+https://code.visualstudio.com/docs/python/tutorial-flask
+
+For File Upload example, see:
+https://www.tutorialspoint.com/flask/flask_file_uploading.htm#:~:text=Flask%20%E2%80%93%20File%20Uploading&text=Handling%20file%20upload%20in%20Flask,it%20to%20the%20desired%20location.
+
+IMPORTANT! For file upload, change code to:
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import  FileStorage
+
+
+
+Create a new virtual environment:
+C:\"Program Files\Python310\python.exe" -m venv .venv
+
+Update pip:
+.venv/Scripts/python.exe -m pip install --upgrade pip
+
+Install flask:
+.venv/Scripts/python.exe -m pip install flask
+
+Install requirements:
+.venv/Scripts/python.exe -m pip install -r requirements.txt
+
+
+Start server from env:
+python -m flask run
+
+Open a browser:
+http://127.0.0.1:5000/gao-ai
+
+
+Stop the server:
+Ctrl-C

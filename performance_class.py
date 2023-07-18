@@ -7,7 +7,7 @@ class PerformanceModel:
 
     def __init__(self):
         # During initialization, train the model
-        self.df = pd.read_csv('gao_performance.csv')
+        self.df = pd.read_csv('performance_training.csv')
 
         X = self.df.iloc[:,1:29] #input features (GAO performance criteria)
         Y = self.df['Compliance Status'].apply(lambda x: 1 if x=='Compliant' else 0)

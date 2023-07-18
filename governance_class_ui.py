@@ -9,7 +9,7 @@ class GovernanceModel:
 
     def __init__(self):
         # During initialization, train the model
-        self.df = pd.read_csv('gao_governance.csv') #Personal file path
+        self.df = pd.read_csv('governance_training.csv') #Personal file path
 
         X = self.df.iloc[:,1:28] #input features (GAO governance criteria)
         Y = self.df['Compliance Status'].apply(lambda x: 1 if x=='Compliant' else 0)

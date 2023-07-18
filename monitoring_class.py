@@ -7,7 +7,7 @@ class MonitoringModel:
 
     def __init__(self):
         # During initialization, train the model
-        self.df = pd.read_csv('gao_monitoring.csv')
+        self.df = pd.read_csv('monitoring_training.csv')
 
         X = self.df.iloc[:,1:17] #input features (GAO monitoring criteria)
         Y = self.df['Compliance Status'].apply(lambda x: 1 if x=='Compliant' else 0)

@@ -1,6 +1,5 @@
-
 import pandas as pd
-from governance_class import GovernanceModel
+from governance_class_ui import GovernanceModel
 #from data_class import DataModel
 #from performance_class import PerformanceModel
 #from monitoring_class import MonitoringModel
@@ -31,7 +30,7 @@ class WrapperClass:
         # Add new neural network here? Or, just calculate average?
         # For now, calculate average. If avg>69.9, return 'Compliant'
         avg = sum(results) / len(results)
-        if avg >= 80:
+        if avg >= 70:
             return 'Compliant'
         else:
             return 'Not Compliant'
@@ -43,7 +42,7 @@ class WrapperClass:
             # J[1..28] = params
             system_name = j[0]
             print(f'row: {i}, system: {system_name}')
-            governance_data = j[1:28]*100
+            governance_data = j[1:28]
             governance_data = [int(a) for a in governance_data]
             print(f'governance_data:\n {governance_data}')
             governance_result = self.governance_model.predict(governance_data)

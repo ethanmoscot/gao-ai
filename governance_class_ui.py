@@ -1,22 +1,19 @@
-
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from keras.models import Sequential
 from keras.layers import Dense
 
-
 class GovernanceModel:
 
     def __init__(self):
         # During initialization, train the model
-        self.df = pd.read_csv('governance_training.csv') #Personal file path
-
+        self.df = pd.read_csv('governance_training.csv')
         X = self.df.iloc[:,1:28] #input features (GAO governance criteria)
-        Y = self.df['Compliance Status'].apply(lambda x: 1 if x=='Compliant' else 0)
+        Y = self.df['Compliance Status']
 
         """ Use random_state=42 if needed. """
-        X_train, X_val_and_test, Y_train, Y_val_and_test = train_test_split(X, Y, test_size = 0.3) #val_and_test is 30% of dataset
-        X_val, X_test, Y_val, Y_test = train_test_split(X_val_and_test, Y_val_and_test, test_size = 0.5) #equal split for validation and test sets
+        X_train, X_val_and_test, Y_train, Y_val_and_test = train_test_split(X, Y, test_size = 0.3, random_state=42) #val_and_test is 30% of dataset
+        X_val, X_test, Y_val, Y_test = train_test_split(X_val_and_test, Y_val_and_test, test_size = 0.5, random_state=42) #equal split for validation and test sets
 
         # Some recommend using a single hidden layer where the number of nodes (units) is 
         # equal to sqrt(num_input_nodes * num_output_nodes).
@@ -50,6 +47,7 @@ class GovernanceModel:
         headers.remove('Compliance Status')
         #print(f'headers: {headers}')
 
+        #27 sample inputs
         example_data = [99,	99,	99,	84,	97,
                         91,	99,	86,	97,	87,	
                         82,	97,	84,	81,	90,

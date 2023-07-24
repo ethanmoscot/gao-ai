@@ -34,8 +34,7 @@ class GovernanceModel:
             stops improving accuracy, then reduce num epochs. If the accuracy is still improving 
             # after this, increase epochs.
             """
-
-            hist = self.model.fit(X_train, Y_train, batch_size=32, epochs=100, validation_split=0.1, validation_data=(X_val, Y_val))
+            hist = self.model.fit(X_train, Y_train, batch_size=32, epochs=81, validation_split=0.1, validation_data=(X_val, Y_val))
             print(hist.history.keys())
             accuracy_list = hist.history['accuracy']
             print(f"Accuracy: {accuracy_list}")
@@ -76,7 +75,6 @@ class GovernanceModel:
         result = 'Compliant' if y_pred >= T else 'Not Compliant'
         print(f'----------------------\nExample Prediction:\n{result}')
         return int(y_pred * 100)
-    
     
 # This file can be called directly using: python governance_class.py
 if __name__ == "__main__":

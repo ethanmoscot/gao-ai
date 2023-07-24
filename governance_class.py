@@ -13,27 +13,28 @@ class GovernanceModel:
         Y = self.df['Result'] # Results column
         print(f'Y: {Y}')
 
-
-        """ Use random_state=42 if needed. """
-        X_train, X_val_and_test, Y_train, Y_val_and_test = train_test_split(X, Y, test_size = 0.3, random_state=42) #val_and_test is 30% of dataset
-        X_val, X_test, Y_val, Y_test = train_test_split(X_val_and_test, Y_val_and_test, test_size = 0.5, random_state=42) #equal split for validation and test sets
-
-        # Some recommend using a single hidden layer where the number of nodes (units) is 
-        # equal to sqrt(num_input_nodes * num_output_nodes).
-        self.model = Sequential([ #two hidden layers followed by output layer
-            Dense(units=32, activation='relu', input_shape=(27,)),
-            Dense(units=64, activation='relu'),
-            Dense(units=1, activation='sigmoid')
-        ])
-        self.model.compile(optimizer='sgd', loss='binary_crossentropy', metrics='accuracy')
-
-        """
-        A rule of thumb for num_epochs is 3 times the number of input nodes. If the model 
-        stops improving accuracy, then reduce num epochs. If the accuracy is still improving 
-        # after this, increase epochs.
-        """
         done = False
         while not done:
+            
+            """ Use random_state=42 if needed. """
+            X_train, X_val_and_test, Y_train, Y_val_and_test = train_test_split(X, Y, test_size = 0.3) #val_and_test is 30% of dataset
+            X_val, X_test, Y_val, Y_test = train_test_split(X_val_and_test, Y_val_and_test, test_size = 0.5) #equal split for validation and test sets
+
+            # Some recommend using a single hidden layer where the number of nodes (units) is 
+            # equal to sqrt(num_input_nodes * num_output_nodes).
+            self.model = Sequential([ #two hidden layers followed by output layer
+                Dense(units=32, activation='relu', input_shape=(27,)),
+                Dense(units=64, activation='relu'),
+                Dense(units=1, activation='sigmoid')
+            ])
+            self.model.compile(optimizer='sgd', loss='binary_crossentropy', metrics='accuracy')
+
+            """
+            A rule of thumb for num_epochs is 3 times the number of input nodes. If the model 
+            stops improving accuracy, then reduce num epochs. If the accuracy is still improving 
+            # after this, increase epochs.
+            """
+
             hist = self.model.fit(X_train, Y_train, batch_size=32, epochs=100, validation_split=0.1, validation_data=(X_val, Y_val))
             print(hist.history.keys())
             accuracy_list = hist.history['accuracy']

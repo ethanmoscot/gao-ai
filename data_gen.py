@@ -5,18 +5,9 @@ These datasets are specifically developed to reflect an even distribution of the
 
 import random
 
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn import preprocessing
-from sklearn.model_selection import train_test_split
-from keras.models import Sequential
-from keras.layers import Dense
 
-governance_headers = ['SystemName', '1.1.1', '1.1.2', '1.1.3', '1.2.1', '1.2.2', '1.2.3', '1.3.1',
-                    '1.3.2', '1.3.3', '1.4.1', '1.4.2', '1.4.3', '1.5.1', '1.5.2', '1.5.3', '1.6.1',
-                    '1.6.2', '1.6.3', '1.7.1', '1.7.2', '1.7.3', '1.8.1', '1.8.2', '1.8.3', '1.9.1',
-                    '1.9.2', '1.9.3', 'Result']
+
 data_headers = ['SystemName', '2.1.1', '2.1.2', '2.1.3', '2.2.1', '2.2.2', '2.2.3', '2.3.1',
                     '2.3.2', '2.3.3', '2.4.1', '2.4.2', '2.4.3', '2.5.1', '2.5.2', '2.5.3', '2.6.1',
                     '2.6.2', '2.6.3', '2.7.1', '2.7.2', '2.7.3', '2.8.1', '2.8.2', '2.8.3', 'Result']

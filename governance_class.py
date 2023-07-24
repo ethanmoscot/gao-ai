@@ -8,8 +8,11 @@ class GovernanceModel:
     def __init__(self):
         # During initialization, train the model
         self.df = pd.read_csv('governance_training_2.csv')
-        X = self.df.iloc[:,1:28] #input features (GAO governance criteria)
-        Y = self.df['Result']
+        X = self.df.iloc[:,1:28] # input features (GAO governance criteria)
+        print(f'X: {X}')
+        Y = self.df['Result'] # Results column
+        print(f'Y: {Y}')
+
 
         """ Use random_state=42 if needed. """
         X_train, X_val_and_test, Y_train, Y_val_and_test = train_test_split(X, Y, test_size = 0.3, random_state=42) #val_and_test is 30% of dataset
@@ -29,15 +32,26 @@ class GovernanceModel:
         stops improving accuracy, then reduce num epochs. If the accuracy is still improving 
         # after this, increase epochs.
         """
-        hist = self.model.fit(X_train, Y_train, batch_size=32, epochs=81, validation_split=0.1, validation_data=(X_val, Y_val))
+        done = False
+        while not done:
+            hist = self.model.fit(X_train, Y_train, batch_size=32, epochs=100, validation_split=0.1, validation_data=(X_val, Y_val))
+            print(hist.history.keys())
+            accuracy_list = hist.history['accuracy']
+            print(f"Accuracy: {accuracy_list}")
+            if accuracy_list[-1] > 0.80:
+                done = True
+            
+        accuracy_list = hist.history['accuracy']
+        print(f"Final Accuracy: {accuracy_list[-1]}")
         print('GovernanceModel ready.')
+        
 
     def predict(self, data):
         # Test predictions on arbitrary example data
         headers = list(self.df.columns.values)
         headers.remove('SystemName')
-        headers.remove('Result')
-        headers.remove('Compliance Status')
+        #headers.remove('Result')
+        #headers.remove('Compliance Status')
         #print(f'headers: {headers}')
 
         """
@@ -53,6 +67,7 @@ class GovernanceModel:
         #print(df2)
 
         # Predict
+        print(f'\n*******************************************')
         y_pred = self.model.predict(df2) 
         print(f'y_pred: {y_pred}')
         T = 0.5
@@ -60,3 +75,13 @@ class GovernanceModel:
         result = 'Compliant' if y_pred >= T else 'Not Compliant'
         print(f'----------------------\nExample Prediction:\n{result}')
         return int(y_pred * 100)
+    
+    
+# This file can be called directly using: python governance_class.py
+if __name__ == "__main__":
+    governance_model = GovernanceModel()
+    example_data = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
+                    90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
+                    90, 91, 92, 93, 94, 95, 96]
+    governance_model.predict(example_data)
+    

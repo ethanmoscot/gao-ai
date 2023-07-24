@@ -4,25 +4,11 @@ These datasets are specifically developed to reflect an even distribution of the
 """
 
 import random
-
 import pandas as pd
 
 
-data_headers = ['SystemName', '2.1.1', '2.1.2', '2.1.3', '2.2.1', '2.2.2', '2.2.3', '2.3.1',
-                    '2.3.2', '2.3.3', '2.4.1', '2.4.2', '2.4.3', '2.5.1', '2.5.2', '2.5.3', '2.6.1',
-                    '2.6.2', '2.6.3', '2.7.1', '2.7.2', '2.7.3', '2.8.1', '2.8.2', '2.8.3', 'Result']
-
-performance_headers = ['SystemName', '3.1.1', '3.1.2', '3.1.3', '3.2.1', '3.2.2', '3.2.3', '3.3.1',
-                       '3.3.2', '3.3.3', '3.4.1', '3.4.2', '3.4.3', '3.5.1', '3.5.2', '3.5.3', '3.6.1',
-                       '3.6.2', '3.6.3', '3.7.1', '3.7.2', '3.7.3', '3.8.1', '3.8.2', '3.8.3', '3.9.1',
-                       '3.9.2', '3.9.3', 'Result']
-
-monitoring_headers = ['SystemName', '4.1.1', '4.1.2', '4.1.3', '4.2.1', '4.2.2', '4.2.3', '4.3.1',
-                      '4.3.2', '4.3.3', '4.4.1', '4.4.2', '4.4.3', '4.5.1', '4.5.2', '4.5.3', 'Result']
-
-
 def generate_result(j):
-    if j>=70 and j<=100:
+    if j>=50 and j<=100:
         return 1
     else:
         return 0
@@ -89,15 +75,114 @@ for j in range(0, 100):
         governance_values.append(dict)
         
 governance_df = pd.DataFrame(governance_values)
-governance_df.to_csv('governance_training_2.csv')
+governance_df.to_csv('governance_training_2.csv', index=False)
 
 
 # Generate data values
+data_values = []
+for j in range(0, 100):
+    print(f'j: {j}')
+    for i in range(0, 10):
+        dict = {}
+        dict['SystemName'] = 'System-' + str(j) + '_' + str(i)
+        dict['2.1.1'] = generate_value(j)
+        dict['2.1.2'] = generate_value(j) 
+        dict['2.1.3'] = generate_value(j) 
+        dict['2.2.1'] = generate_value(j) 
+        dict['2.2.2'] = generate_value(j)
+        dict['2.2.3'] = generate_value(j) 
+        dict['2.3.1'] = generate_value(j)
+        dict['2.3.2'] = generate_value(j) 
+        dict['2.3.3'] = generate_value(j) 
+        dict['2.4.1'] = generate_value(j) 
+        dict['2.4.2'] = generate_value(j) 
+        dict['2.4.3'] = generate_value(j) 
+        dict['2.5.1'] = generate_value(j) 
+        dict['2.5.2'] = generate_value(j) 
+        dict['2.5.3'] = generate_value(j) 
+        dict['2.6.1'] = generate_value(j)
+        dict['2.6.2'] = generate_value(j) 
+        dict['2.6.3'] = generate_value(j) 
+        dict['2.7.1'] = generate_value(j) 
+        dict['2.7.2'] = generate_value(j) 
+        dict['2.7.3'] = generate_value(j) 
+        dict['2.8.1'] = generate_value(j) 
+        dict['2.8.2'] = generate_value(j) 
+        dict['2.8.3'] = generate_value(j) 
+        dict['Result'] = generate_result(j)
+        data_values.append(dict)
+        
+data_df = pd.DataFrame(data_values)
+data_df.to_csv('data_training_2.csv', index=False)
 
 
 # Generate performance values
+performance_values = []
+for j in range(0, 100):
+    print(f'j: {j}')
+    for i in range(0, 10):
+        dict = {}
+        dict['SystemName'] = 'System-' + str(j) + '_' + str(i)
+        dict['3.1.1'] = generate_value(j)  
+        dict['3.1.2'] = generate_value(j)  
+        dict['3.1.3'] = generate_value(j)  
+        dict['3.2.1'] = generate_value(j)  
+        dict['3.2.2'] = generate_value(j)  
+        dict['3.2.3'] = generate_value(j)  
+        dict['3.3.1'] = generate_value(j) 
+        dict['3.3.2'] = generate_value(j)  
+        dict['3.3.3'] = generate_value(j)  
+        dict['3.4.1'] = generate_value(j)  
+        dict['3.4.2'] = generate_value(j)  
+        dict['3.4.3'] = generate_value(j)  
+        dict['3.5.1'] = generate_value(j)  
+        dict['3.5.2'] = generate_value(j)  
+        dict['3.5.3'] = generate_value(j)  
+        dict['3.6.1'] = generate_value(j) 
+        dict['3.6.2'] = generate_value(j)  
+        dict['3.6.3'] = generate_value(j)  
+        dict['3.7.1'] = generate_value(j)  
+        dict['3.7.2'] = generate_value(j)  
+        dict['3.7.3'] = generate_value(j)  
+        dict['3.8.1'] = generate_value(j)  
+        dict['3.8.2'] = generate_value(j)  
+        dict['3.8.3'] = generate_value(j)  
+        dict['3.9.1'] = generate_value(j) 
+        dict['3.9.2'] = generate_value(j)  
+        dict['3.9.3'] = generate_value(j)  
+        dict['Result'] = generate_result(j)
+        performance_values.append(dict)
+        
+performance_df = pd.DataFrame(performance_values)
+performance_df.to_csv('performance_training_2.csv', index=False)
 
 
 # Generate monitoring values
+monitor_values = []
+for j in range(0, 100):
+    print(f'j: {j}')
+    for i in range(0, 10):
+        dict = {}
+        dict['SystemName'] = 'System-' + str(j) + '_' + str(i)
+        dict['4.1.1'] = generate_value(j)  
+        dict['4.1.2'] = generate_value(j) 
+        dict['4.1.3'] = generate_value(j)  
+        dict['4.2.1'] = generate_value(j)  
+        dict['4.2.2'] = generate_value(j)  
+        dict['4.2.3'] = generate_value(j)  
+        dict['4.3.1'] = generate_value(j) 
+        dict['4.3.2'] = generate_value(j)  
+        dict['4.3.3'] = generate_value(j)  
+        dict['4.4.1'] = generate_value(j)  
+        dict['4.4.2'] = generate_value(j)  
+        dict['4.4.3'] = generate_value(j)  
+        dict['4.5.1'] = generate_value(j)  
+        dict['4.5.2'] = generate_value(j)  
+        dict['4.5.3'] = generate_value(j)  
+        dict['Result'] = generate_result(j) 
 
+        monitor_values.append(dict)
+        
+monitor_df = pd.DataFrame(monitor_values)
+monitor_df.to_csv('monitor_training_2.csv', index=False)
 

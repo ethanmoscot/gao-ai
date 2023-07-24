@@ -1,5 +1,5 @@
 import pandas as pd
-from governance_class_ui import GovernanceModel
+from governance_class import GovernanceModel
 #from data_class import DataModel
 #from performance_class import PerformanceModel
 #from monitoring_class import MonitoringModel
@@ -10,7 +10,7 @@ class WrapperClass:
         # Instantiate all model classes
         self.governance_model = GovernanceModel()
         #self.data_model = DataModel()
-        #self.perforamnce_model = PerformanceModel()
+        #self.performance_model = PerformanceModel()
         #self.monitoring_model = MonitoringModel()
         print('NN models loaded')
 

@@ -7,11 +7,10 @@ class GovernanceModel:
 
     def __init__(self):
         # During initialization, train the model
-        self.df = pd.read_csv('governance_training_2.csv')
+        self.df = pd.read_csv('data/governance_training.csv')
         X = self.df.iloc[:,1:28] # input features (GAO governance criteria)
-        print(f'X: {X}')
+        print(X)
         Y = self.df['Result'] # Results column
-        print(f'Y: {Y}')
 
         done = False
         while not done:
@@ -32,36 +31,23 @@ class GovernanceModel:
             """
             A rule of thumb for num_epochs is 3 times the number of input nodes. If the model 
             stops improving accuracy, then reduce num epochs. If the accuracy is still improving 
-            # after this, increase epochs.
+            after this, increase epochs.
             """
-            hist = self.model.fit(X_train, Y_train, batch_size=32, epochs=81, validation_split=0.1, validation_data=(X_val, Y_val))
-            print(hist.history.keys())
+            # Use verbose=0 to hide epoch values
+            hist = self.model.fit(X_train, Y_train, verbose=0, batch_size=32, epochs=81, validation_split=0.1, validation_data=(X_val, Y_val))
+            #print(hist.history.keys())
             accuracy_list = hist.history['accuracy']
-            print(f"Accuracy: {accuracy_list}")
+            #print(f"Accuracy: {accuracy_list}")
             if accuracy_list[-1] > 0.80:
                 done = True
             
         accuracy_list = hist.history['accuracy']
-        print(f"Final Accuracy: {accuracy_list[-1]}")
-        print('GovernanceModel ready.')
+        print(f"DONE Governance Accuracy: {accuracy_list[-1]}")
         
 
     def predict(self, data):
-        # Test predictions on arbitrary example data
-        headers = list(self.df.columns.values)
-        headers.remove('SystemName')
-        #headers.remove('Result')
-        #headers.remove('Compliance Status')
-        #print(f'headers: {headers}')
+        # data contains 27 input values
 
-        """
-        For testing, use values '0..9', '10..19', ..., '70..79', '80..89', '90..100'
-        Values 70..100 should result in 1; otherwise, result is 0
-        """
-        # 27 sample inputs
-        example_data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-                        0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-                        0, 1, 2, 3, 4, 5, 6]
         # Transpose the data from a column to a row.
         df2 = pd.DataFrame(data).T
         #print(df2)
@@ -70,17 +56,23 @@ class GovernanceModel:
         print(f'\n*******************************************')
         y_pred = self.model.predict(df2) 
         print(f'y_pred: {y_pred}')
-        T = 0.5
-        y_pred_bool = y_pred >= T
-        result = 'Compliant' if y_pred >= T else 'Not Compliant'
-        print(f'----------------------\nExample Prediction:\n{result}')
-        return int(y_pred * 100)
+        threshold = 0.5
+        y_pred_bool = y_pred >= threshold
+        compliance_result = 1 if y_pred >= threshold else 0
+        print(f'----------------------\nGovernance Prediction: {compliance_result}')
+        return compliance_result
+    
     
 # This file can be called directly using: python governance_class.py
 if __name__ == "__main__":
     governance_model = GovernanceModel()
-    example_data = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
-                    90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
-                    90, 91, 92, 93, 94, 95, 96]
-    governance_model.predict(example_data)
+    
+    """
+    For testing, use values '0..9', '10..19', ..., '70..79', '80..89', '90..100'
+    Values 70..100 should result in 1; otherwise, result is 0
+    """
+    #example_data = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
+    #                90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
+    #                90, 91, 92, 93, 94, 95, 96]
+    #governance_model.predict(example_data)
     

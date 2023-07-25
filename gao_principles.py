@@ -1,17 +1,17 @@
 import pandas as pd
 from governance_class import GovernanceModel
-#from data_class import DataModel
-#from performance_class import PerformanceModel
-#from monitoring_class import MonitoringModel
+from data_class import DataModel
+from performance_class import PerformanceModel
+from monitoring_class import MonitoringModel
 
-class WrapperClass:
+class Principles:
 
     def __init__(self):
         # Instantiate all model classes
         self.governance_model = GovernanceModel()
-        #self.data_model = DataModel()
-        #self.performance_model = PerformanceModel()
-        #self.monitoring_model = MonitoringModel()
+        self.data_model = DataModel()
+        self.performance_model = PerformanceModel()
+        self.monitoring_model = MonitoringModel()
         print('NN models loaded')
 
         
@@ -30,28 +30,47 @@ class WrapperClass:
         # Add new neural network here? Or, just calculate average?
         # For now, calculate average. If avg>69.9, return 'Compliant'
         avg = sum(results) / len(results)
-        if avg >= 70:
+        if avg == 1:
             return 'Compliant'
         else:
             return 'Not Compliant'
     
     def predict(self):
+        print('In predict')
         systems = []
         for i, j in self.df.iterrows():
             # j[0] = System name
             # J[1..28] = params
             system_name = j[0]
-            print(f'row: {i}, system: {system_name}')
+            #print(f'row: {i}, system: {system_name}')
+            
+            # ----- Governance -----
             governance_data = j[1:28]
             governance_data = [int(a) for a in governance_data]
             print(f'governance_data:\n {governance_data}')
             governance_result = self.governance_model.predict(governance_data)
             print(f'governance_result: {governance_result}')
             
-            # Just set these for now
-            data_result = 92
-            performance_result = 90
-            monitoring_result = 90
+            # ----- Data -----
+            data_data = j[28:52]
+            data_data = [int(a) for a in data_data]
+            print(f'data_data:\n {data_data}')
+            data_result = self.data_model.predict(data_data)
+            print(f'data_result: {data_result}')
+
+            # ----- Performance -----
+            performance_data = j[52:79]
+            performance_data = [int(a) for a in performance_data]
+            print(f'performance_data:\n {performance_data}')
+            performance_result = self.performance_model.predict(performance_data)
+            print(f'performance_result: {performance_result}')
+            
+            # ----- Monitoring -----
+            monitoring_data = j[79:94]
+            monitoring_data = [int(a) for a in monitoring_data]
+            print(f'monitoring_data:\n {monitoring_data}')
+            monitoring_result = self.monitoring_model.predict(monitoring_data)
+            print(f'monitoring_result: {monitoring_result}')
             
             models_results = []
             

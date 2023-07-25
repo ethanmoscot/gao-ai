@@ -1,6 +1,7 @@
 """ 
-This file generates datasets for each of the four GAO compliance areas. 
-These datasets are specifically developed to reflect an even distribution of the data.
+This file generates training/test/validation datasets for each of the four GAO compliance areas. 
+These datasets are specifically developed to reflect an even distribution of the data. The 
+four datasets are written to /data as CSV files.
 """
 
 import random
@@ -40,7 +41,6 @@ def generate_value(j):
 # Generate governance values
 governance_values = []
 for j in range(0, 100):
-    print(f'j: {j}')
     for i in range(0, 10):
         dict = {}
         dict['SystemName'] = 'System-' + str(j) + '_' + str(i)
@@ -75,13 +75,13 @@ for j in range(0, 100):
         governance_values.append(dict)
         
 governance_df = pd.DataFrame(governance_values)
-governance_df.to_csv('governance_training_2.csv', index=False)
+print(f'Writing data/governance_training.csv')
+governance_df.to_csv('data/governance_training.csv', index=False)
 
 
 # Generate data values
 data_values = []
 for j in range(0, 100):
-    print(f'j: {j}')
     for i in range(0, 10):
         dict = {}
         dict['SystemName'] = 'System-' + str(j) + '_' + str(i)
@@ -113,13 +113,13 @@ for j in range(0, 100):
         data_values.append(dict)
         
 data_df = pd.DataFrame(data_values)
-data_df.to_csv('data_training_2.csv', index=False)
+print(f'Writing data/data_training.csv')
+data_df.to_csv('data/data_training.csv', index=False)
 
 
 # Generate performance values
 performance_values = []
 for j in range(0, 100):
-    print(f'j: {j}')
     for i in range(0, 10):
         dict = {}
         dict['SystemName'] = 'System-' + str(j) + '_' + str(i)
@@ -154,13 +154,13 @@ for j in range(0, 100):
         performance_values.append(dict)
         
 performance_df = pd.DataFrame(performance_values)
-performance_df.to_csv('performance_training_2.csv', index=False)
+print(f'Writing data/performance_training.csv')
+performance_df.to_csv('data/performance_training.csv', index=False)
 
 
 # Generate monitoring values
 monitor_values = []
 for j in range(0, 100):
-    print(f'j: {j}')
     for i in range(0, 10):
         dict = {}
         dict['SystemName'] = 'System-' + str(j) + '_' + str(i)
@@ -184,5 +184,8 @@ for j in range(0, 100):
         monitor_values.append(dict)
         
 monitor_df = pd.DataFrame(monitor_values)
-monitor_df.to_csv('monitor_training_2.csv', index=False)
+print(f'Writing data/monitor_training.csv')
+monitor_df.to_csv('data/monitor_training.csv', index=False)
+
+print('Done')
 

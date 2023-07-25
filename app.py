@@ -2,14 +2,15 @@ from flask import Flask, Response, render_template, request, jsonify
 from werkzeug.utils import secure_filename
 import traceback
 from flask import send_file
-from wrapper_class import WrapperClass
+from gao_principles import Principles
 import pandas as pd
 import json
 
 app = Flask(__name__)
 
 # Load the NN models now
-wrapper = WrapperClass()  
+principles = Principles()  
+print('GAO Ready - Make sure no other VS Code terminals are open.')
 
 # ------------------------------------ Globals ------------------------------------ 
 
@@ -19,19 +20,24 @@ df = None
 
 @app.route('/gao-ai', endpoint='gao_ai')
 def gao_ai():
+    # This function renders the main UI.
+    print('Launching UI')
     return render_template('gao-ai.html')
         
 
 @app.route('/uploader', methods = ['GET', 'POST'], endpoint='upload_file')
 def upload_file():
+    # This function takes an uploaded system data file.
     if request.method == 'POST':
+        print('**** uploaded file')
         f = request.files['file']
         global df
         df = pd.read_csv(f)
         #f.save(secure_filename(f.filename))
-        wrapper.load_df(df)
-        num_rows, num_cols, status = wrapper.validate()
-        system_results = wrapper.predict()
+        principles.load_df(df)
+        num_rows, num_cols, status = principles.validate()
+        print('predicting', flush=True)
+        system_results = principles.predict()
 
         return render_template('dynamic_update.html', title='Bootstrap Table',
                             filename=f.filename, num_rows=num_rows, num_cols=num_cols, status=status,
@@ -44,6 +50,7 @@ def upload_file():
     
 @app.route('/get_data', methods=['GET'], endpoint='get_system_data')
 def get_system_data():
+    # This function gets the principles data for the selected system.
     try:
         # IMPORTANT! HTML row number is 1 greater than data row number
         row_id = request.args.get('row_id')

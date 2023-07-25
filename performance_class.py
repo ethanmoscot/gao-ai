@@ -7,11 +7,10 @@ class PerformanceModel:
 
     def __init__(self):
         # During initialization, train the model
-        self.df = pd.read_csv('performance_training_2.csv')
-        X = self.df.iloc[:,1:29] #input features (GAO performance criteria)
-        print(f'X: {X}')
+        self.df = pd.read_csv('data/performance_training.csv')
+        X = self.df.iloc[:,1:28] #input features (GAO performance criteria)
+        print(X)
         Y = self.df['Result'] # Results column
-        print(f'Y: {Y}')
        
         done = False
         while not done:
@@ -23,7 +22,7 @@ class PerformanceModel:
             # Some recommend using a single hidden layer where the number of nodes (units) is 
             # equal to sqrt(num_input_nodes * num_output_nodes).
             self.model = Sequential([ #two hidden layers followed by output layer
-                Dense(units=32, activation='relu', input_shape=(28,)),
+                Dense(units=32, activation='relu', input_shape=(27,)),
                 Dense(units=64, activation='relu'),
                 Dense(units=1, activation='sigmoid')
             ])
@@ -34,19 +33,21 @@ class PerformanceModel:
             stops improving accuracy, then reduce num epochs. If the accuracy is still improving 
             # after this, increase epochs.
             """
-            hist = self.model.fit(X_train, Y_train, batch_size=32, epochs=81, validation_split=0.1, validation_data=(X_val, Y_val))
-            print(hist.history.keys())
+            # Use verbose=0 to hide epoch values
+            hist = self.model.fit(X_train, Y_train, verbose=0, batch_size=32, epochs=81, validation_split=0.1, validation_data=(X_val, Y_val))
+            #print(hist.history.keys())
             accuracy_list = hist.history['accuracy']
-            print(f"Accuracy: {accuracy_list}")
+            #print(f"Accuracy: {accuracy_list}")
             if accuracy_list[-1] > 0.80:
                 done = True
             
         accuracy_list = hist.history['accuracy']
-        print(f"Final Accuracy: {accuracy_list[-1]}")
-        print('PerformanceModel ready.')
+        print(f"DONE Performance Accuracy: {accuracy_list[-1]}")
 
 
     def predict(self, data):
+        # data contains 27 input values
+
         # Test predictions on arbitrary example data
         headers = list(self.df.columns.values)
         headers.remove('SystemName')
@@ -54,14 +55,6 @@ class PerformanceModel:
         #headers.remove('Compliance Status')
         #print(f'headers: {headers}')
 
-        """
-        For testing, use values '0..9', '10..19', ..., '70..79', '80..89', '90..100'
-        Values 70..100 should result in 1; otherwise, result is 0
-        """
-        #28 sample inputs
-        example_data = [99,	99,	99,	84,	97, 91,	99,	86,	97,	87,	
-                        82,	97,	84,	81,	90, 86,	89,	83,	88,	86,
-                        87,	92,	88,	90,	98,	99,	87, 84]
         # Transpose the data from a column to a row
         df2 = pd.DataFrame(data).T
         #print(df2)
@@ -72,14 +65,19 @@ class PerformanceModel:
         print(f'y_pred: {y_pred}')
         T = 0.5
         y_pred_bool = y_pred >= T
-        result = 'Compliant' if y_pred >= T else 'Not Compliant'
-        print(f'----------------------\nExample Prediction:\n{result}')
-        return int(y_pred * 100)
+        result = 1 if y_pred >= T else 0
+        print(f'----------------------\nPerformance Prediction:\n{result}')
+        return result
     
 # This file can be called directly using: python performance_class.py
 if __name__ == "__main__":
     performance_model = PerformanceModel()
-    example_data = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
-                    90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
-                    90, 91, 92, 93, 94, 95, 96, 97]
-    performance_model.predict(example_data)
+    
+    """
+    For testing, use values '0..9', '10..19', ..., '70..79', '80..89', '90..100'
+    Values 70..100 should result in 1; otherwise, result is 0
+    """
+    #example_data = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
+    #                90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
+    #                90, 91, 92, 93, 94, 95, 96, 97]
+    #performance_model.predict(example_data)

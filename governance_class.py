@@ -60,7 +60,7 @@ class GovernanceModel:
         y_pred_bool = y_pred >= threshold
         compliance_result = 1 if y_pred >= threshold else 0
         print(f'----------------------\nGovernance Prediction: {compliance_result}')
-        return compliance_result
+        return int(y_pred * 100)
     
     
 # This file can be called directly using: python governance_class.py

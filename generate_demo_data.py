@@ -19,7 +19,7 @@ def generate_result(j):
 def generate_value(j):
     if j==3 or j==7:
         # Create all compliant values
-        return random.randint(70, 100)
+        return random.randint(0, 100)
     else:
         return random.randint(0, 100)
     """

@@ -67,7 +67,8 @@ class PerformanceModel:
         y_pred_bool = y_pred >= T
         result = 1 if y_pred >= T else 0
         print(f'----------------------\nPerformance Prediction:\n{result}')
-        return result
+        return int(y_pred * 100)
+
     
 # This file can be called directly using: python performance_class.py
 if __name__ == "__main__":

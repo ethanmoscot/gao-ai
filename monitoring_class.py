@@ -52,7 +52,7 @@ class MonitoringModel:
         plt.xlabel('Epoch')
         plt.legend(['Train', 'Validation'], loc='upper left')
         plt.savefig('monitoring_accuracy.png', bbox_inches='tight')
-
+        plt.clf()
         print(f"DONE Monitoring Accuracy: {accuracy_list[-1]}")
 
 

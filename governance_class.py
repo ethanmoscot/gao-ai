@@ -50,7 +50,7 @@ class GovernanceModel:
         plt.xlabel('Epoch')
         plt.legend(['Train', 'Validation'], loc='upper left')
         plt.savefig('governance_accuracy.png', bbox_inches='tight')
-
+        plt.clf()
         print(f"DONE Governance Accuracy: {accuracy_list[-1]}")
         
 

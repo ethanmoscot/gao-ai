@@ -51,7 +51,7 @@ class DataModel:
         plt.xlabel('Epoch')
         plt.legend(['Train', 'Validation'], loc='upper left')
         plt.savefig('data_accuracy.png', bbox_inches='tight')
-
+        plt.clf()
         print(f"DONE Data Accuracy: {accuracy_list[-1]}")
 
 

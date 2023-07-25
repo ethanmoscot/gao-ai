@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from keras.models import Sequential
 from keras.layers import Dense
@@ -42,6 +43,15 @@ class DataModel:
                 done = True
             
         accuracy_list = hist.history['accuracy']
+
+        plt.plot(hist.history['accuracy'])
+        plt.plot(hist.history['val_accuracy'])
+        plt.title('Data Model Accuracy')
+        plt.ylabel('Accuracy')
+        plt.xlabel('Epoch')
+        plt.legend(['Train', 'Validation'], loc='upper left')
+        plt.savefig('data_accuracy.png', bbox_inches='tight')
+
         print(f"DONE Data Accuracy: {accuracy_list[-1]}")
 
 

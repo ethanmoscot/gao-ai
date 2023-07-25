@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from keras.models import Sequential
 from keras.layers import Dense
@@ -43,6 +44,15 @@ class MonitoringModel:
                 done = True
             
         accuracy_list = hist.history['accuracy']
+
+        plt.plot(hist.history['accuracy'])
+        plt.plot(hist.history['val_accuracy'])
+        plt.title('Monitoring Model Accuracy')
+        plt.ylabel('Accuracy')
+        plt.xlabel('Epoch')
+        plt.legend(['Train', 'Validation'], loc='upper left')
+        plt.savefig('monitoring_accuracy.png', bbox_inches='tight')
+
         print(f"DONE Monitoring Accuracy: {accuracy_list[-1]}")
 
 

@@ -7,6 +7,7 @@ from keras.layers import Dense
 class MonitoringModel:
 
     def __init__(self):
+        print('Training monitoring model')
         # During initialization, train the model
         self.df = pd.read_csv('data/monitor_training.csv')
 
@@ -36,7 +37,7 @@ class MonitoringModel:
             # after this, increase epochs.
             """
             # Use verbose=0 to hide epoch values
-            hist = self.model.fit(X_train, Y_train, verbose=0, batch_size=32, epochs=81, validation_split=0.1, validation_data=(X_val, Y_val))
+            hist = self.model.fit(X_train, Y_train, verbose=0, batch_size=32, epochs=20, validation_split=0.1, validation_data=(X_val, Y_val))
             #print(hist.history.keys())
             accuracy_list = hist.history['accuracy']
             #print(f"Accuracy: {accuracy_list}")
@@ -71,14 +72,11 @@ class MonitoringModel:
         #print(df2)
 
         # Predict
-        print(f'\n*******************************************')
+        # Get the the predicted probability that the input data is compliant.
         y_pred = self.model.predict(df2) 
-        print(f'y_pred: {y_pred}')
-        T = 0.5
-        y_pred_bool = y_pred >= T
-        result = 1 if y_pred >= T else 0
-        print(f'----------------------\nMonitoring Prediction:\n{result}')
-        return int(y_pred * 100)
+        val = '%.5f'%(y_pred[0][0])
+        print(f'prob compliant: {val}')
+        return float(val)
 
     
 # This file can be called directly using: python monitoring_class.py

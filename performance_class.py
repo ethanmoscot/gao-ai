@@ -35,7 +35,7 @@ class PerformanceModel:
             # after this, increase epochs.
             """
             # Use verbose=0 to hide epoch values
-            hist = self.model.fit(X_train, Y_train, verbose=0, batch_size=32, epochs=81, validation_split=0.1, validation_data=(X_val, Y_val))
+            hist = self.model.fit(X_train, Y_train, verbose=0, batch_size=32, epochs=20, validation_split=0.1, validation_data=(X_val, Y_val))
             #print(hist.history.keys())
             accuracy_list = hist.history['accuracy']
             #print(f"Accuracy: {accuracy_list}")
@@ -70,15 +70,20 @@ class PerformanceModel:
         #print(df2)
 
         # Predict
-        print(f'\n*******************************************')
+        # Get the the predicted probability that the input data is compliant.
         y_pred = self.model.predict(df2) 
-        print(f'y_pred: {y_pred}')
+        val = '%.5f'%(y_pred[0][0])
+        print(f'prob compliant: {val}')
+        return float(val)
+    
+    """
+        print(f'y_pred: {y_pred[0]}')
         T = 0.5
         y_pred_bool = y_pred >= T
         result = 1 if y_pred >= T else 0
         print(f'----------------------\nPerformance Prediction:\n{result}')
         return int(y_pred * 100)
-
+    """
     
 # This file can be called directly using: python performance_class.py
 if __name__ == "__main__":

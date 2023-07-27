@@ -8,6 +8,7 @@ class DataModel:
 
     def __init__(self):
         # During initialization, train the model
+        print(f'Training data model...')
         self.df = pd.read_csv('data/data_training.csv')
         X = self.df.iloc[:,1:25] #input features (GAO data criteria)
         print(X)
@@ -35,7 +36,7 @@ class DataModel:
             # after this, increase epochs.
             """
             # Use verbose=0 to hide epoch values
-            hist = self.model.fit(X_train, Y_train, verbose=0, batch_size=32, epochs=75, validation_split=0.1, validation_data=(X_val, Y_val))
+            hist = self.model.fit(X_train, Y_train, verbose=0, batch_size=32, epochs=20, validation_split=0.1, validation_data=(X_val, Y_val))
             #print(hist.history.keys())
             accuracy_list = hist.history['accuracy']
             #print(f"Accuracy: {accuracy_list}")
@@ -70,14 +71,11 @@ class DataModel:
         #print(df2)
 
         # Predict
-        print(f'\n*******************************************')
+        # Get the the predicted probability that the input data is compliant.
         y_pred = self.model.predict(df2) 
-        print(f'y_pred: {y_pred}')
-        T = 0.5
-        y_pred_bool = y_pred >= T
-        result = 1 if y_pred >= T else 0
-        print(f'----------------------\nData Prediction: {result}')
-        return int(y_pred * 100)
+        val = '%.5f'%(y_pred[0][0])
+        print(f'prob compliant: {val}')
+        return float(val)
 
     
 # This file can be called directly using: python data_class.py

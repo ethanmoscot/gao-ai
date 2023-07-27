@@ -64,7 +64,7 @@ def get_system_data():
         for index, value in governance_series.items():
             dict={}
             dict['Section'] = index
-            dict['Score'] = int(value*100)
+            dict['Score'] = int(value)
             governance_list.append(dict)
 
         data_list = []
@@ -72,7 +72,7 @@ def get_system_data():
         for index, value in data_series.items():
             dict={}
             dict['Section'] = index
-            dict['Score'] = int(value*100)
+            dict['Score'] = int(value)
             data_list.append(dict)
         
         performance_list = []
@@ -80,7 +80,7 @@ def get_system_data():
         for index, value in performance_series.items():
             dict={}
             dict['Section'] = index
-            dict['Score'] = int(value*100)
+            dict['Score'] = int(value)
             performance_list.append(dict)        
         
         monitoring_list = []
@@ -88,7 +88,7 @@ def get_system_data():
         for index, value in monitoring_series.items():
             dict={}
             dict['Section'] = index
-            dict['Score'] = int(value*100)
+            dict['Score'] = int(value)
             monitoring_list.append(dict)  
                     
         dict={}

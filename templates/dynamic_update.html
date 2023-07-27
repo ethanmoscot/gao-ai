@@ -30,7 +30,7 @@
                 <th style="color: #6B98A6; " width="15%">Data</th>
                 <th style="color: #6B98A6; " width="15%">Performance</th>
                 <th style="color: #6B98A6; " width="15%">Monitoring</th>
-                <th style="color: #6B98A6; " width="15%">Overall Compliance</th>
+                <th style="color: #6B98A6; " width="15%">Overall</th>
             </tr>
         </thead>
         <tbody>
@@ -38,10 +38,31 @@
             {% for result in system_results %}
                 <tr onclick="getData(this)">
                     <td>{{ result.SystemName }}</td>
-                    <td>{{ result.Governance }}</td>
-                    <td>{{ result.Data }}</td>
-                    <td>{{ result.Performance }}</td>
-                    <td>{{ result.Monitoring }}</td>
+
+                    {% if result.Governance >= 0.80  %}
+                    <td style="color: green; ">{{ result.Governance }}</td>
+                    {% else %}
+                    <td style="color: red; ">{{ result.Governance }}</td>
+                    {% endif %}
+
+                    {% if result.Data >= 0.80  %}
+                    <td style="color: green; ">{{ result.Data }}</td>
+                    {% else %}
+                    <td style="color: red; ">{{ result.Data }}</td>
+                    {% endif %}
+
+                    {% if result.Performance >= 0.80  %}
+                    <td style="color: green; ">{{ result.Performance }}</td>
+                    {% else %}
+                    <td style="color: red; ">{{ result.Performance }}</td>
+                    {% endif %}
+
+                    {% if result.Monitoring >= 0.80  %}
+                    <td style="color: green; ">{{ result.Monitoring }}</td>
+                    {% else %}
+                    <td style="color: red; ">{{ result.Monitoring }}</td>
+                    {% endif %}                    
+
                     {% if result.Compliance == 'Compliant'  %}
                     <td style="color: green; ">{{ result.Compliance }}</td>
                     {% else %}

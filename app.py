@@ -68,7 +68,7 @@ def get_system_data():
             governance_list.append(dict)
 
         data_list = []
-        data_series = df.iloc[row_id, 25:52]
+        data_series = df.iloc[row_id, 28:52]
         for index, value in data_series.items():
             dict={}
             dict['Section'] = index

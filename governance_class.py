@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from keras.models import Sequential, load_model
 from keras.layers import Dense
+from tensorflow import keras
+from generate_models import ModelGeneration
 
 class GovernanceModel:
 
@@ -21,16 +23,8 @@ class GovernanceModel:
             X_train, X_val_and_test, Y_train, Y_val_and_test = train_test_split(X, Y, test_size = 0.3) #val_and_test is 30% of dataset
             X_val, X_test, Y_val, Y_test = train_test_split(X_val_and_test, Y_val_and_test, test_size = 0.5) #equal split for validation and test sets
 
-            # Some recommend using a single hidden layer where the number of nodes (units) is 
-            # equal to sqrt(num_input_nodes * num_output_nodes).
-            self.model = Sequential([ #two hidden layers followed by output layer
-                Dense(units=32, activation='relu', input_shape=(27,)),
-                Dense(units=64, activation='relu'),
-                Dense(units=1, activation='sigmoid')
-            ])
-            self.model.compile(optimizer='sgd', loss='binary_crossentropy', metrics='accuracy')
-            self.model.save("governance_model")
-            model = load_model("governance_model")
+            self.generate_models = ModelGeneration()
+            loaded_model = keras.models.load_model("governance_model")
 
             """
             A rule of thumb for num_epochs is 3 times the number of input nodes. If the model 
@@ -38,11 +32,11 @@ class GovernanceModel:
             after this, increase epochs.
             """
             print("Fit model on training data:")
-            # Use verbose=0 to hide individual epoch values, validation_split=0.1 reserves 10% of training data for validation
-            hist = self.model.fit(X_train, Y_train, verbose='0', batch_size=32, epochs=20, validation_split=0.1, validation_data=(X_val, Y_val))
+            # verbose=0 hides individual epoch values, validation_split=0.1 reserves 10% of training data for validation
+            hist = loaded_model.fit(X_train, Y_train, verbose='0', batch_size=32, epochs=20, validation_split=0.1, validation_data=(X_val, Y_val)) # type: ignore
 
             print("Evaluate model on test data:")
-            results = self.model.evaluate(X_test, Y_test, batch_size=128)
+            results = loaded_model.evaluate(X_test, Y_test, batch_size=128) # type: ignore
             print("Test loss, test accuracy:", results)
 
             '''
@@ -74,7 +68,7 @@ class GovernanceModel:
         #print(df2)
 
         # Get the the predicted probability that the input data is compliant.
-        y_pred = self.model.predict(df2) 
+        y_pred = self.model.predict(df2) # type: ignore
         val = '%.5f'%(y_pred[0][0])
         print(f'prob compliant: {val}')
         return float(val)

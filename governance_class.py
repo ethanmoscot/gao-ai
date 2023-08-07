@@ -29,8 +29,8 @@ class GovernanceModel:
                 Dense(units=1, activation='sigmoid')
             ])
             self.model.compile(optimizer='sgd', loss='binary_crossentropy', metrics='accuracy')
-            self.model.save("governance_model.h5")
-            model = load_model("governance_model.h5")
+            self.model.save("governance_model")
+            model = load_model("governance_model")
 
             """
             A rule of thumb for num_epochs is 3 times the number of input nodes. If the model 

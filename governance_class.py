@@ -4,9 +4,18 @@ from sklearn.model_selection import train_test_split
 from keras.models import Sequential, load_model
 from keras.layers import Dense
 from tensorflow import keras
-from generate_models import ModelGeneration
 
 class GovernanceModel:
+
+    def generate_governance(self):
+        #Some recommend using a single hidden layer where the number of nodes (units) is equal to sqrt(num_input_nodes * num_output_nodes).
+        model = Sequential([ #two hidden layers followed by output layer
+                Dense(units=32, activation='relu', input_shape=(27,)), #27 inputs
+                Dense(units=64, activation='relu'),
+                Dense(units=1, activation='sigmoid')
+            ])
+        model.compile(optimizer='sgd', loss='binary_crossentropy', metrics='accuracy')
+        model.save("governance_model")
 
     def __init__(self):
         print('Training governance model...')
@@ -16,15 +25,15 @@ class GovernanceModel:
         print(X)
         Y = self.df['Result'] # Results column
 
+        self.generate_governance()
+        loaded_model = keras.models.load_model("governance_model")
+
         done = False
         while not done:
             
             """ Use random_state=42 if needed. """
             X_train, X_val_and_test, Y_train, Y_val_and_test = train_test_split(X, Y, test_size = 0.3) #val_and_test is 30% of dataset
             X_val, X_test, Y_val, Y_test = train_test_split(X_val_and_test, Y_val_and_test, test_size = 0.5) #equal split for validation and test sets
-
-            self.generate_models = ModelGeneration()
-            loaded_model = keras.models.load_model("governance_model")
 
             """
             A rule of thumb for num_epochs is 3 times the number of input nodes. If the model 

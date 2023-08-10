@@ -86,12 +86,3 @@ class GovernanceModel:
 # This file can be called directly using: python governance_class.py
 if __name__ == "__main__":
     governance_model = GovernanceModel()
-    
-    """
-    For testing, use values '0..9', '10..19', ..., '70..79', '80..89', '90..100'
-    Values 70..100 should result in 1; otherwise, result is 0
-    """
-    #example_data = [90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
-    #                90, 91, 92, 93, 94, 95, 96, 97, 98, 99,
-    #                90, 91, 92, 93, 94, 95, 96]
-    #governance_model.predict(example_data)

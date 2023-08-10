@@ -64,7 +64,7 @@ class PerformanceModel:
         plt.ylabel('Accuracy')
         plt.xlabel('Epoch')
         plt.legend(['Train', 'Validation'], loc='upper left')
-        plt.savefig('performance_accuracy.png', bbox_inches='tight')
+        plt.savefig('accuracy_results/performance_accuracy.png', bbox_inches='tight')
         plt.clf()
         print(f"FINAL PERFORMANCE ACCURACY: {accuracy_list[-1]}")
 
